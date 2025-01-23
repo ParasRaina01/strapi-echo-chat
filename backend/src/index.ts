@@ -20,9 +20,17 @@ export default {
   async bootstrap({ strapi }) {
     const io = new Server(strapi.server.httpServer, {
       cors: {
-        origin: "http://localhost:5174",
-        methods: ["GET", "POST"],
-        credentials: true
+        origin: ['http://localhost:5173', 'https://strapi-echo-chat.vercel.app'],
+        methods: ["GET", "POST", "OPTIONS"],
+        credentials: true,
+        allowedHeaders: [
+          'Content-Type',
+          'Authorization',
+          'Origin',
+          'Accept',
+          'Cache-Control',
+          'X-Requested-With'
+        ]
       }
     });
 
