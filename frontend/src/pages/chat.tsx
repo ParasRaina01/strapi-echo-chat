@@ -3,6 +3,8 @@ import { io } from 'socket.io-client';
 import { useAuth } from '../contexts/auth-context';
 import { toast } from 'sonner';
 
+const WS_URL = import.meta.env.VITE_WS_URL;
+
 interface Message {
   id: string;
   text: string;
@@ -19,7 +21,7 @@ export default function Chat() {
   const { user, logout } = useAuth();
 
   useEffect(() => {
-    const newSocket = io('http://localhost:1337', {
+    const newSocket = io(WS_URL, {
       withCredentials: true,
       auth: {
         token: localStorage.getItem('jwt'),
