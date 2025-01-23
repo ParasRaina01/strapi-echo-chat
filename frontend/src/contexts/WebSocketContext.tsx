@@ -29,9 +29,15 @@ export function WebSocketProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const newSocket = io(WS_URL, {
       withCredentials: true,
-      reconnection: true,
-      reconnectionAttempts: 5,
+      auth: {
+        token: localStorage.getItem('jwt'),
+      },
+      transports: ['websocket', 'polling'],
+      path: '/socket.io/',
       reconnectionDelay: 1000,
+      reconnectionDelayMax: 5000,
+      reconnectionAttempts: 5,
+      timeout: 20000
     });
 
     newSocket.on('connect', () => {
@@ -48,10 +54,12 @@ export function WebSocketProvider({ children }: { children: React.ReactNode }) {
     newSocket.on('connect_error', (error) => {
       setIsConnected(false);
       setConnectionError('Unable to connect to chat server. Please check your internet connection.');
+      console.error('Connection error:', error);
       toast.error('Connection error: ' + error.message);
     });
 
     newSocket.on('error', (error) => {
+      console.error('Socket error:', error);
       toast.error('Chat error: ' + error.message);
     });
 

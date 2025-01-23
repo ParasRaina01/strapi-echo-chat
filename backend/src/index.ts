@@ -31,7 +31,12 @@ export default {
           'Cache-Control',
           'X-Requested-With'
         ]
-      }
+      },
+      path: '/socket.io/',
+      transports: ['websocket', 'polling'],
+      allowEIO3: true,
+      pingTimeout: 60000,
+      pingInterval: 25000
     });
 
     io.on('connection', (socket) => {
