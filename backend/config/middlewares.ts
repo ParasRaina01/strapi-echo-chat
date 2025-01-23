@@ -5,11 +5,20 @@ export default [
   {
     name: 'strapi::cors',
     config: {
-      headers: ['Content-Type', 'Authorization', 'Origin', 'Accept'],
-      origin: ['http://localhost:5174', process.env.FRONTEND_URL].filter(Boolean),
+      enabled: true,
+      headers: [
+        'Content-Type',
+        'Authorization',
+        'Origin',
+        'Accept',
+        'Cache-Control',
+        'X-Requested-With'
+      ],
+      origin: ['http://localhost:5173', 'https://strapi-echo-chat.vercel.app'].filter(Boolean),
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
       credentials: true,
-      keepHeaderOnError: true
+      keepHeaderOnError: true,
+      exposedHeaders: ['WWW-Authenticate', 'Server-Authorization']
     }
   },
   'strapi::poweredBy',
